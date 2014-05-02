@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+	<!-- MESSAGING TARGET TO BE USED AS A PROTOTYPE FOR MESSAGING TARGET FACTORIES -->
+
+	<bean id="prototypeMessagingTarget" class="xdi2.messaging.target.impl.graph.GraphMessagingTarget">
+		<property name="graph" ref="prototypeGraph" />
+		<property name="interceptors">
+			<util:list>
+				<bean class="xdi2.messaging.target.interceptor.impl.BootstrapInterceptor">
+					<property name="bootstrapRootLinkContract" value="true" />
+					<property name="bootstrapPublicLinkContract" value="true" />
+					<property name="bootstrapGraph">
+						<value>
+							{$self}$to$anon$from$public$do/$get/{$self}$msg$encrypt$keypair&lt;$public&gt;&lt;$key&gt;
+							{$self}$to$anon$from$public$do/$get/({$self}$msg$encrypt$keypair/$is#/{})
+							{$self}$to$anon$from$public$do/$get/{$self}$msg$sig$keypair&lt;$public&gt;&lt;$key&gt;
+							{$self}$to$anon$from$public$do/$get/({$self}$msg$sig$keypair/$is#/{})
+						</value>
+					</property>
+					<property name="bootstrapMessageEnvelope">
+						<value>
+							$anon[$msg]!1$do/$do$keypair/({$self}$msg$encrypt$keypair/$is+/$rsa$2048)
+							$anon[$msg]!1$do/$do$keypair/({$self}$msg$sig$keypair/$is+/$rsa$2048)
+						</value>
+					</property>
+				</bean>
+				<bean class="xdi2.messaging.target.interceptor.impl.RefInterceptor" />
+				<bean class="xdi2.messaging.target.interceptor.impl.ToInterceptor" />
+			</util:list>
+		</property>
+		<property name="contributors">
+			<util:list>
+				
+				<bean class="xdi2.messaging.target.contributor.impl.keygen.GenerateKeyContributor" />
+			</util:list>
+		</property>
+	</bean>
+
+	<!-- MESSAGING TARGET FACTORY at /users/* -->
+
+	<bean name="/users/*" class="xdi2.transport.impl.http.factory.impl.RegistryGraphMessagingTargetFactory">
+		<property name="prototypeMessagingTarget" ref="prototypeMessagingTarget" />
+		<property name="registryGraph" ref="registryGraph" />
+	</bean>
+
+	<!-- REGISTRY MESSAGING TARGET -->
+
+	<bean id="registryGraph" factory-bean="prototypeGraphFactory" factory-method="openGraph">
+		<constructor-arg><value>REGISTRY</value></constructor-arg>
+	</bean>
+
+	<bean name="/registry" class="xdi2.messaging.target.impl.graph.GraphMessagingTarget">
+		<property name="graph" ref="registryGraph" />
+		<property name="interceptors">
+			<util:list>
+				<bean class="xdi2.messaging.target.interceptor.impl.BootstrapInterceptor">
+					<property name="bootstrapOwner" value="[+]!:uuid:d541e1ec-7b19-42ee-ae9b-5f6e0d239a26" />
+					<property name="bootstrapOwnerSynonyms">
+						<util:list>
+							<value>+efemurl</value>
+						</util:list>
+					</property>
+					<property name="bootstrapRootLinkContract" value="true" />
+					<property name="bootstrapPublicLinkContract" value="true" />
+					<property name="bootstrapGraph">
+						<value>
+							{$self}$to$anon$from$public$do/$get/{$self}$msg$encrypt$keypair&lt;$public&gt;&lt;$key&gt;
+							{$self}$to$anon$from$public$do/$get/({$self}$msg$encrypt$keypair/$is#/{})
+							{$self}$to$anon$from$public$do/$get/{$self}$msg$sig$keypair&lt;$public&gt;&lt;$key&gt;
+							{$self}$to$anon$from$public$do/$get/({$self}$msg$sig$keypair/$is#/{})
+						</value>
+					</property>
+					<property name="bootstrapMessageEnvelope">
+						<value>
+							$anon[$msg]!1$do/$do$keypair/({$self}$msg$encrypt$keypair/$is#/$rsa$2048)
+							$anon[$msg]!1$do/$do$keypair/({$self}$msg$sig$keypair/$is#/$rsa$2048)
+						</value>
+					</property>
+				</bean>
+				<bean class="xdi2.messaging.target.interceptor.impl.RefInterceptor" />
+				<bean class="xdi2.messaging.target.interceptor.impl.ToInterceptor" />
+			</util:list>
+		</property>
+		<property name="contributors">
+			<util:list>
+				<bean class="xdi2.messaging.target.contributor.impl.digest.GenerateDigestSecretTokenContributor">
+					<property name="globalSalt" value="ec4a5719-e202-421a-91bc-f132a5e87840" />
+				</bean>
+				<bean class="xdi2.messaging.target.contributor.impl.keygen.GenerateKeyContributor" />
+			</util:list>
+		</property>
+	</bean>
+
+</beans>
