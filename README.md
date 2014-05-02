@@ -1,3 +1,5 @@
+<img src="http://efemurl.com/themes/efemurl/images/logo.jpg" width="150"><br>
+
 This is a profile of the [XDI2](http://github.com/projectdanube/xdi2) server, configured to 
 act as an Efemurl-hosted registry for cloud names and cloud numbers, and to instantiate
 XDI graphs for personal clouds.
