@@ -35,7 +35,7 @@ For example, to register cloud name **=william** with cloud number **[=]!:uuid:b
 	=sender[$msg]!1$do/$set/(([=]!:uuid:bd00b25b-d93f-4f42-93a9-25d7ad2ba305)/$is$ref/(=william))
 	=sender[$msg]!1$do/$set/(([=]!:uuid:bd00b25b-d93f-4f42-93a9-25d7ad2ba305)<$xdi><$uri>&/&/"http://localhost:15540/users/%5B%3D%5D%21%3Auuid%3Abd00b25b-d93f-4f42-93a9-25d7ad2ba305")
 
-### User clouds
+### Personal clouds
 
 How to write data to =william's XDI graph (= personal cloud):
 
