@@ -26,7 +26,7 @@ Then the XDI2 status page is available at
 
 How to register a cloud name and cloud number:
 
-For example, to register cloud name =william with cloud number [=]!:uuid:bd00b25b-d93f-4f42-93a9-25d7ad2ba305:
+For example, to register cloud name **=william** with cloud number **[=]!:uuid:bd00b25b-d93f-4f42-93a9-25d7ad2ba305**:
 
 	POST the following XDI message to http://localhost:15540/registry
 
