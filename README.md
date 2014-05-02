@@ -30,6 +30,7 @@ For example, to register cloud name =william with cloud number [=]!:uuid:bd00b25
 
 	=sender[$msg]!1/$is()/([+]!:uuid:d541e1ec-7b19-42ee-ae9b-5f6e0d239a26)
 	=sender[$msg]!1$do/$set/((=william)/$ref/([=]!:uuid:bd00b25b-d93f-4f42-93a9-25d7ad2ba305))
+	=sender[$msg]!1$do/$set/(([=]!:uuid:bd00b25b-d93f-4f42-93a9-25d7ad2ba305)/$is$ref/(=william))
 	=sender[$msg]!1$do/$set/(([=]!:uuid:bd00b25b-d93f-4f42-93a9-25d7ad2ba305)<$xdi><$uri>&/&/"http://localhost:15540/users/%5B%3D%5D%21%3Auuid%3Abd00b25b-d93f-4f42-93a9-25d7ad2ba305")
 
 ### User clouds
